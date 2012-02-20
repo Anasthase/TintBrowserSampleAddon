@@ -24,6 +24,10 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+/**
+ * Addon service class.
+ * Do NOT modify.
+ */
 public class AddonService extends Service {
 	
 	private IAddon.Stub mAddon = new Addon(this);

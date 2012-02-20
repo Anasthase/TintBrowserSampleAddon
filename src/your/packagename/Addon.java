@@ -20,15 +20,13 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public String getContributedBookmarkContextMenuItem()
-			throws RemoteException {
+	public String getContributedBookmarkContextMenuItem() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getContributedHistoryBookmarksMenuItem()
-			throws RemoteException {
+	public String getContributedHistoryBookmarksMenuItem() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,8 +38,7 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public String getContributedLinkContextMenuItem(int arg0, String arg1)
-			throws RemoteException {
+	public String getContributedLinkContextMenuItem(int hitTestResult, String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -59,48 +56,43 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public List<Action> onContributedBookmarkContextMenuItemSelected(
-			String arg0, String arg1) throws RemoteException {
+	public List<Action> onContributedBookmarkContextMenuItemSelected(String title, String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onContributedHistoryBookmarksMenuItemSelected()
-			throws RemoteException {
+	public List<Action> onContributedHistoryBookmarksMenuItemSelected() throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onContributedHistoryContextMenuItemSelected(
-			String arg0, String arg1) throws RemoteException {
+	public List<Action> onContributedHistoryContextMenuItemSelected(String title, String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onContributedLinkContextMenuItemSelected(int arg0,
-			String arg1) throws RemoteException {
+	public List<Action> onContributedLinkContextMenuItemSelected(int hitTestResult, String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onContributedMainMenuItemSelected(String arg0,
-			String arg1) throws RemoteException {
+	public List<Action> onContributedMainMenuItemSelected(String currentTitle, String currentUrl) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onPageFinished(String arg0) throws RemoteException {
+	public List<Action> onPageFinished(String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onPageStarted(String arg0) throws RemoteException {
+	public List<Action> onPageStarted(String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -112,7 +104,7 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public List<Action> onUserAnswerQuestion(String arg0, boolean arg1)
+	public List<Action> onUserAnswerQuestion(String questionId, boolean positiveAnswer)
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;

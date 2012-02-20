@@ -25,6 +25,11 @@ import your.packagename.R;
 import android.app.Service;
 import android.os.RemoteException;
 
+/**
+ * Base class for addon implementation. This class implements all the basic
+ * and technical calls for an addon.
+ * Do NOT modify.
+ */
 public abstract class BaseAddon extends IAddon.Stub {
 	
 	protected Service mService;

@@ -12,6 +12,7 @@
         
         <service
             android:name=".AddonService"
+            android:permission="org.tint.permissions.services.ADDONS"
             android:exported="true" >
             <intent-filter>
                 <action android:name="org.tint.intent.action.ADDON" />
