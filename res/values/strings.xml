@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="AddonName">Your addon name</string>
+    <string name="AddonShortDescription">A short description of your addon.</string>
+    <string name="AddonDescription">A longer description of your addon. You can include urls (http://www.something.org/).</string>
+    <string name="AddonContactEMail">your.email@something.org</string>
+    <string name="AddonContactWebsite">http://www.myaddon.org/</string>
+
+</resources>
