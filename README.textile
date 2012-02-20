@@ -1,0 +1,13 @@
+h1. Tint Browser Sample Addon Project
+
+This is a sample project for writing an addon for "Tint Browser":https://github.com/Anasthase/TintBrowser. In order to build it, it is also needed to clone the "Tint Browser Addon Framework Library":https://github.com/Anasthase/TintBrowserAddonFrameworkLibrary project.
+
+{toc}
+
+h2. How to write an addon
+
+h2. Appendix
+
+h3. Available callbacks
+
+h3. Available actions
