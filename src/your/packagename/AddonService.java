@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.tint.addons;
+package your.packagename;
 
 import org.tint.addons.framework.IAddon;
 
