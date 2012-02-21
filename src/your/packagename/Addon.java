@@ -86,13 +86,25 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public List<Action> onPageFinished(String url) throws RemoteException {
+	public List<Action> onPageFinished(String webViewId, String url) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Action> onPageStarted(String url) throws RemoteException {
+	public List<Action> onPageStarted(String webViewId, String url) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Action> onTabClosed(String webViewId) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Action> onTabOpened(String webViewId) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -104,8 +116,7 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public List<Action> onUserAnswerQuestion(String questionId, boolean positiveAnswer)
-			throws RemoteException {
+	public List<Action> onUserAnswerQuestion(String questionId, boolean positiveAnswer)	throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
