@@ -6,8 +6,55 @@ This is a sample project for writing an addon for "Tint Browser":https://github.
 
 h2. How to write an addon
 
+h3. Get the sources
+
+Clone this project and the "Tint Browser Addon Framework Library":https://github.com/Anasthase/TintBrowserAddonFrameworkLibrary project.
+
+h3. Addon identity
+
+Change the application package name of the project. Right-click on your project and select ??Android tools > Rename Application Package??. Then rename the package in the src folder to match the application package name just given.
+
+Customize your addon identity by providing icons in the ??res/drawable-*?? folders. Open the ??strings.xml?? file in the ??res/values?? folder, and setup the mandatory strings in it. Theses strings will be displayed to the user in the main application.
+
+h3. Addon architecture
+
+Addons are called by Tint Browser on specific events. Addons can answers by a list of actions which are performed by the main application. Addons cannot manipulate themselves objects from the main application.
+
+h3. Implementation
+
+The main class to implement is ??Addon.java?? in the addon project.
+
+h4. Callbacks
+
+Callbacks are used to define to witch events an addon will be notify off. This definition is mandatory. This is done for two reasons:
+# To avoid calls to unused callbacks. When a call to addons must be made, the main application go through the list of active addons, check for each of them if they have defined the current callback, and if yes, call the addon and process its answer. Registering callbacks allow to avoid unnecessary calls to addons;
+# To display to user in the addons details view what an addon is notified of;
+
+Defining callbacks is made in the ??getCallbacks()?? method. Default implementation return 0, which means no callbacks. Change the return value to the callbacks you want to use, separated by a | character.
+
+Example:
+
+bq. @Override
+	public int getCallbacks() throws RemoteException {
+	    return Callbacks.PAGE_FINISHED | Callbacks.HAS_PREFERENCES_PAGE;
+	}
+
+In this example, the addon will be notified when a page has finished to be loaded, and provide a preference page. For a list of callbacks, see "Available callbacks":#availablecallbacks.
+
 h2. Appendix
 
-h3. Available callbacks
+h3(#availablecallbacks). Available callbacks
+
+* ??Callbacks.PAGE_STARTED??: To be notified when a page starts loading.
+* ??Callbacks.PAGE_FINISHED??: To be notified when a page ends loading.
+* ??Callbacks.TAB_OPENED??: To be notified when a new tab is opened.
+* ??Callbacks.TAB_CLOSED??: To be notified when a tab is closed.
+* ??Callbacks.TAB_SWITCHED??: To be notified when tabs are switched.
+* ??Callbacks.HAS_PREFERENCES_PAGE??: 
+* ??Callbacks.CONTRIBUTE_MAIN_MENU??
+* ??Callbacks.CONTRIBUTE_LINK_CONTEXT_MENU??
+* ??Callbacks.CONTRIBUTE_HISTORY_BOOKMARKS_MENU??
+* ??Callbacks.CONTRIBUTE_BOOKMARK_CONTEXT_MENU??
+* ??Callbacks.CONTRIBUTE_HISTORY_CONTEXT_MENU??
 
 h3. Available actions
