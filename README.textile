@@ -4,27 +4,33 @@ This project is licensed under the "Apache 2":http://www.apache.org/licenses/LIC
 
 This is a sample project for writing an addon for "Tint Browser":https://github.com/Anasthase/TintBrowser. In order to build it, it is also needed to clone the "Tint Browser Addon Framework Library":https://github.com/Anasthase/TintBrowserAddonFrameworkLibrary project.
 
-h2. How to write an addon
+h1. How to write an addon
 
-h3. Get the sources
+h2. Get the sources
 
 Clone this project and the "Tint Browser Addon Framework Library":https://github.com/Anasthase/TintBrowserAddonFrameworkLibrary project.
 
-h3. Addon identity
+h2. Addon identity
 
 Change the application package name of the project. Right-click on your project and select ??Android tools > Rename Application Package??. Then rename the package in the src folder to match the application package name just given.
 
+Open the ??AndroidManifest.xml?? file. From the line:
+
+bq. &lt;category android:name=&quot;org.tint.intent.category.CHANGE_THIS_TO_YOUR_ADDON_NAME&quot; /&gt;
+
+Change ??CHANGE_THIS_TO_YOUR_ADDON_NAME?? for a unique string identifying your addon.
+
 Customize your addon identity by providing icons in the ??res/drawable-*?? folders. Open the ??strings.xml?? file in the ??res/values?? folder, and setup the mandatory strings in it. Theses strings will be displayed to the user in the main application.
 
-h3. Addon architecture
+h2. Addon architecture
 
 Addons are called by Tint Browser on specific events. Addons can answers by a list of actions which are performed by the main application. Addons cannot manipulate themselves objects from the main application.
 
-h3. Implementation
+h2. Implementation
 
 The main class to implement is ??Addon.java?? in the addon project.
 
-h4. Callbacks
+h3. Callbacks
 
 Callbacks are used to define to witch events an addon will be notify off. This definition is mandatory. This is done for two reasons:
 # To avoid calls to unused callbacks. When a call to addons must be made, the main application go through the list of active addons, check for each of them if they have defined the current callback, and if yes, call the addon and process its answer. Registering callbacks allow to avoid unnecessary calls to addons;
@@ -41,20 +47,146 @@ bq. @Override
 
 In this example, the addon will be notified when a page has finished to be loaded, and provide a preference page. For a list of callbacks, see "Available callbacks":#availablecallbacks.
 
-h2. Appendix
+h3. Performing actions on the browser
 
-h3(#availablecallbacks). Available callbacks
+The browser can perform actions defined by an addon. Performing actions is available on callbacks where the return type is ??List&lt;Action&gt;??. To make to browser perform actions, create a list of ??Action??, fill it, and return it. The action will be performed in the order they are in the list.
 
-* ??Callbacks.PAGE_STARTED??: To be notified when a page starts loading.
-* ??Callbacks.PAGE_FINISHED??: To be notified when a page ends loading.
-* ??Callbacks.TAB_OPENED??: To be notified when a new tab is opened.
-* ??Callbacks.TAB_CLOSED??: To be notified when a tab is closed.
-* ??Callbacks.TAB_SWITCHED??: To be notified when tabs are switched.
-* ??Callbacks.HAS_PREFERENCES_PAGE??: 
-* ??Callbacks.CONTRIBUTE_MAIN_MENU??
-* ??Callbacks.CONTRIBUTE_LINK_CONTEXT_MENU??
-* ??Callbacks.CONTRIBUTE_HISTORY_BOOKMARKS_MENU??
-* ??Callbacks.CONTRIBUTE_BOOKMARK_CONTEXT_MENU??
-* ??Callbacks.CONTRIBUTE_HISTORY_CONTEXT_MENU??
+Example:
 
-h3. Available actions
+bq. @Override
+	public List&lt;Action&gt; onPageFinished(String tabId, String url) throws RemoteException {		
+				List&lt;Action&gt; response = new ArrayList&lt;Action&gt;();
+				response.add(new LoadUrlAction(&quot;http://www.something.org&quot;));
+				return response;
+	}
+
+The browser will load the given url in the current tab. For a list of available actions, see "Available actions":#availableactions.
+
+h1. Appendix
+
+h2(#availablecallbacks). Available callbacks
+
+h3. Callbacks.PAGE_STARTED
+
+To be notified when a page starts loading.
+
+Methods called:
+* ??List&lt;Action&gt; onPageStarted(String tabId, String url)??
+** ??tabId??: The id of the tab where the url will be loaded.
+** ??url??: The url which is going to be loaded.
+
+h3. Callbacks.PAGE_FINISHED
+
+To be notified when a page ends loading.
+
+Methods called:
+* ??List&lt;Action&gt; onPageFinished(String tabId, String url)??
+** ??tabId??: The id of the tab where the url has been loaded.
+** ??url??: The url which has been loaded.
+
+h3. Callbacks.TAB_OPENED
+
+To be notified when a new tab is opened.
+
+Methods called:
+* ??List&lt;Action&gt; onTabOpened(String tabId)??
+** ??tabId??: The id of the new tab.
+
+h3. Callbacks.TAB_CLOSED
+
+To be notified when a tab is closed.
+
+Methods called:
+* ??List&lt;Action&gt; onTabClosed(String tabId)??
+** ??tabId??: The id of the closed tab.
+
+h3. Callbacks.TAB_SWITCHED
+
+To be notified when tabs are switched.
+
+Methods called:
+* ??List&lt;Action&gt; onTabSwitched(String tabId)??
+** ??tabId??: The id of the tab displayed to the user.
+
+h3. Callbacks.HAS_PREFERENCES_PAGE
+
+Set this if your addon has a settings page.
+
+Methods called:
+* ??void showAddonPreferenceActivity()??
+
+In this method, you must open an Activity and display it to the user.
+
+Example:
+
+bq. @Override
+	public void showAddonPreferenceActivity() throws RemoteException {
+		Intent i = new Intent(mService, Preferences.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		mService.startActivity(i);
+	}
+
+Where ??Preferences?? is a class deriving from ??Activity??. As for any ??Activity??, it must be declared in the ??AndroidManifest.xml??. The flag ??Intent.FLAG_ACTIVITY_NEW_TASK?? is mandatory, it will not work otherwise. The flag ??Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS?? is not mandatory, but recommended. If set, the ??Activity?? opened will not be shown in the recent tasks list, and thus will make Tint Browser and its addons behave as a single application.
+
+TODO: Add recomandation for preferences pages here.
+ 
+h3. Callbacks.CONTRIBUTE_MAIN_MENU
+
+To make an addon contribute an item to the main menu.
+
+Methods called:
+* ??String getContributedMainMenuItem(String currentTabId, String currentTitle, String currentUrl)??
+** ??currentTabId??: The id of the current tab.
+** ??currentTitle??: The web page title of the current tab.
+** ??currentUrl??: The web page url of the current tab.
+** Return: the title of the menu to be added. If null or empty, no menu will be shown.
+* ??List&lt;Action&gt; onContributedMainMenuItemSelected(String currentTabId, String currentTitle, String currentUrl)??
+** ??currentTabId??: The id of the current tab.
+** ??currentTitle??: The web page title of the current tab.
+** ??currentUrl??: The web page url of the current tab.
+
+h3. Callbacks.CONTRIBUTE_LINK_CONTEXT_MENU
+
+To make an addon contribute an item to the contextual menu on a link.
+
+Methods called:
+
+h3. Callbacks.CONTRIBUTE_HISTORY_BOOKMARKS_MENU
+
+To make an addon contribute an item to the main menu in the bookmarks and history activity.
+
+Methods called:
+
+h3. Callbacks.CONTRIBUTE_BOOKMARK_CONTEXT_MENU
+
+To make an addon contribute an item to the contextual menu on a bookmark in the bookmarks and history activity.
+
+Methods called:
+
+h3. Callbacks.CONTRIBUTE_HISTORY_CONTEXT_MENU
+
+To make an addon contribute an item to the contextual menu on an history item in the bookmarks and history activity.
+
+Methods called:
+
+h2(#availableactions). Available actions
+
+h3. Open tab
+
+h3. Close current tab
+
+h3. Stop
+
+h3. Reload
+
+h3. Go back
+
+h3. Go forward
+
+h3. Show toast message
+
+h3. Show dialog
+
+h3. Ask user
+
+h3. Load url
