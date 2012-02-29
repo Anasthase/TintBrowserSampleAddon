@@ -128,7 +128,7 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public void showAddonPreferenceActivity() throws RemoteException {
+	public void showAddonSettingsActivity() throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
