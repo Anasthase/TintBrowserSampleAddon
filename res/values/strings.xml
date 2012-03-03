@@ -4,7 +4,7 @@
     <string name="AddonName">Your addon name</string>
     <string name="AddonShortDescription">A short description of your addon.</string>
     <string name="AddonDescription">A longer description of your addon. You can include urls (http://www.something.org/).</string>
-    <string name="AddonContactEMail">your.email@something.org</string>
-    <string name="AddonContactWebsite">http://www.myaddon.org/</string>
+    <!-- Contact can be email or and url -->
+    <string name="AddonContact">http://www.myaddon.org/</string>
 
 </resources>
