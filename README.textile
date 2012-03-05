@@ -108,12 +108,12 @@ Methods called:
 * ??List&lt;Action&gt; onTabSwitched(String tabId)??
 ** ??tabId??: The id of the tab displayed to the user.
 
-h3. Callbacks.HAS_PREFERENCES_PAGE
+h3. Callbacks.HAS_SETTINGS_PAGE
 
 Set this if your addon has a settings page.
 
 Methods called:
-* ??void showAddonPreferenceActivity()??
+* ??void showAddonSettingsActivity()??
 
 In this method, you must open an Activity and display it to the user.
 
@@ -150,43 +150,143 @@ h3. Callbacks.CONTRIBUTE_LINK_CONTEXT_MENU
 To make an addon contribute an item to the contextual menu on a link.
 
 Methods called:
+* ??String getContributedLinkContextMenuItem(String currentTabId, int hitTestResult, String url)??
+** ??currentTabId??: The id of the current tab.
+** ??hitTestResult??: The "HitTestResult":http://developer.android.com/reference/android/webkit/WebView.HitTestResult.html, indicating the type of link hitted.
+** ??url??: The url of the hitted link.
+** Return: the title of the menu to be added. If null or empty, no menu will be shown.
+* ??List&lt;Action&gt; onContributedLinkContextMenuItemSelected(String currentTabId, int hitTestResult, String url)??
+** ??currentTabId??: The id of the current tab.
+** ??hitTestResult??: The "HitTestResult":http://developer.android.com/reference/android/webkit/WebView.HitTestResult.html, indicating the type of link hitted.
+** ??url??: The url of the hitted link. 
 
 h3. Callbacks.CONTRIBUTE_HISTORY_BOOKMARKS_MENU
 
 To make an addon contribute an item to the main menu in the bookmarks and history activity.
 
 Methods called:
+* ??String getContributedHistoryBookmarksMenuItem(String currentTabId)??
+** ??currentTabId??: The id of the current tab.
+** Return: the title of the menu to be added. If null or empty, no menu will be shown.
+* ??List&lt;Action&gt; onContributedHistoryBookmarksMenuItemSelected(String currentTabId)??
+** ??currentTabId??: The id of the current tab.
 
 h3. Callbacks.CONTRIBUTE_BOOKMARK_CONTEXT_MENU
 
 To make an addon contribute an item to the contextual menu on a bookmark in the bookmarks and history activity.
 
 Methods called:
+* ??String getContributedBookmarkContextMenuItem(String currentTabId)??
+** ??currentTabId??: The id of the current tab.
+** Return: the title of the menu to be added. If null or empty, no menu will be shown.
+* ??List&lt;Action&gt; onContributedBookmarkContextMenuItemSelected(String currentTabId, String title, String url)??
+** ??currentTabId??: The id of the current tab.
+** ??title??: The title of the selected bookmark.
+** ??url??: The url of the selected bookmark.
 
 h3. Callbacks.CONTRIBUTE_HISTORY_CONTEXT_MENU
 
 To make an addon contribute an item to the contextual menu on an history item in the bookmarks and history activity.
 
 Methods called:
+* ??String getContributedHistoryContextMenuItem(String currentTabId)??
+** ??currentTabId??: The id of the current tab.
+** Return: the title of the menu to be added. If null or empty, no menu will be shown.
+* ??List&lt;Action&gt; onContributedHistoryContextMenuItemSelected(String currentTabId, String title, String url)??
+** ??currentTabId??: The id of the current tab.
+** ??title??: The title of the selected history item.
+** ??url??: The url of the selected history item.
 
 h2(#availableactions). Available actions
 
 h3. Open tab
 
+Class: ??OpenTabAction??.
+
+Constuctors:
+* ??OpenTabAction()??: Open a new tab, loading the default home page defined by the user.
+* ??OpenTabAction(String url)??: Open a new tab, and load the given ??url?? in it.
+
 h3. Close current tab
+
+Class: ??TabAction??, but do not create it directly. Use one of the method below.
+
+Creation:
+* ??static TabAction TabAction.createCloseTabAction()??: Close the current tab.
+* ??static TabAction TabAction.createCloseTabAction(String tabId)??: Close the tab with id ??tabId??. Do nothing if ??tabId?? is invalid or does not exists.  
 
 h3. Stop
 
+Class: ??TabAction??, but do not create it directly. Use one of the method below.
+
+Creation:
+* ??static TabAction TabAction.createBrowseStopAction()??: Stop loading on the current tab.
+* ??static TabAction TabAction.createBrowseStopAction(String tabId)??: Stop loading on the tab with id ??tabId??. Do nothing if ??tabId?? is invalid or does not exists.
+
 h3. Reload
+
+Class: ??TabAction??, but do not create it directly. Use one of the method below.
+
+Creation:
+* ??static TabAction TabAction.createBrowseReloadAction()??: Reload the current tab.
+* ??static TabAction TabAction.createBrowseReloadAction(String tabId)??: Reload the tab with id ??tabId??. Do nothing if ??tabId?? is invalid or does not exists.
 
 h3. Go back
 
+Class: ??TabAction??, but do not create it directly. Use one of the method below.
+
+Creation:
+* ??static TabAction TabAction.createBrowseBackAction()??: Go back in history on the current tab.
+* ??static TabAction TabAction.createBrowseBackAction(String tabId)??: Go back in history on the tab with id ??tabId??. Do nothing if ??tabId?? is invalid or does not exists.
+
 h3. Go forward
+
+Class: ??TabAction??, but do not create it directly. Use one of the method below.
+
+Creation:
+* ??static TabAction TabAction.createBrowseForwardAction()??: Go forward in history on the current tab.
+* ??static TabAction TabAction.createBrowseForwardAction(String tabId)??: Go forward in history on the tab with id ??tabId??. Do nothing if ??tabId?? is invalid or does not exists.
 
 h3. Show toast message
 
+Class: ??ShowToastAction??.
+
+Constructors:
+* ??ShowToastAction(String toastMessage)??
+** ??toastMessage??: The message to display as a toast. Duration of the toast is ??Toast.LENGTH_SHORT??.
+* ??ShowToastAction(String toastMessage, int toastLength)??
+** ??toastMessage??: The message to display as a toast.
+** ??toastLength??: Duration of the toast. Must be either ??Toast.LENGTH_SHORT?? or ??Toast.LENGTH_LONG??. If not, ??Toast.LENGTH_SHORT?? will be used.
+
 h3. Show dialog
 
-h3. Ask user
+Class: ??ShowDialogAction??.
+
+Constructor:
+* ??ShowDialogAction(String title, String message)??
+** ??title??: Title of the dialog.
+** ??message??: Message of the dialog.
 
 h3. Load url
+
+Class: ??LoadUrlAction??.
+
+Constructors:
+* ??LoadUrlAction(String url)??
+* ??LoadUrlAction(String tabId, String url)??
+* ??LoadUrlAction(String url, boolean loadRawUrl)??
+* ??LoadUrlAction(String tabId, String url, boolean loadRawUrl)??
+
+Load an url into a tab. If no tab is specified, the url will be loaded in the current tab. If the specified tab is invalid or does not exists, this action does nothing. If ??loadRawUrl?? is ??true?? (??false?? when not specified), the given url will not be checked by the browser before loading, e.g. ??http://?? will not be added if required, etc. Setting ??loadRawUrl?? to ??true?? is mandatory for javascript injection (e.g. injecting a piece of javascript in the page).
+
+h3. Asking something to the user
+
+Asking something to the user is made in two steps. First an addon must create a specific action in a callback. When the user answer, a method in the addon is called to provide user answer. In order to keep track of questions, each action allowing to ask something to the user provide an id (accessible through ??getId()?? on the action). This id will specified when the answer method is called.
+
+Id's are Java ??UUID??. In the answer method, they are given as a ??String??, which can be converted back to ??UUID?? using ??UUID.fromString()??.
+
+h4. Confirmation
+
+h4. Input
+
+h4. Choice
