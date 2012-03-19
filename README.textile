@@ -42,10 +42,10 @@ Example:
 
 bq. @Override
 	public int getCallbacks() throws RemoteException {
-	    return Callbacks.PAGE_FINISHED | Callbacks.HAS_PREFERENCES_PAGE;
+	    return Callbacks.PAGE_FINISHED | Callbacks.HAS_SETTINGS_PAGE;
 	}
 
-In this example, the addon will be notified when a page has finished to be loaded, and provide a preference page. For a list of callbacks, see "Available callbacks":#availablecallbacks.
+In this example, the addon will be notified when a page has finished to be loaded, and provide a settings page. For a list of callbacks, see "Available callbacks":#availablecallbacks.
 
 h3. Performing actions on the browser
 
@@ -287,6 +287,55 @@ Id's are Java ??UUID??. In the answer method, they are given as a ??String??, wh
 
 h4. Confirmation
 
+Class: ??AskUserConfirmationAction??.
+
+Constructors:
+* ??AskUserConfirmationAction(String title, String message, String positiveButtonCaption, String negativeButtonCaption)??
+** ??title??: Title of the message box.
+** ??message??: Message of the message box.
+** ??positiveButtonCaption??: Text displayed in the button for a positive answer.
+** ??negativeButtonCaption??: Text displayed in the button for a negative answer.
+
+Method called when user answer:
+* ??List&lt;Action&gt; onUserConfirm(String currentTabId, String questionId, boolean positiveAnswer)??
+** ??currentTabId??: The id of the current tab.
+** ??questionId??: The id of the question.
+** ??positiveAnswer??: ??true?? if the user has clicked on the positive button, ??false?? if the user has clicked on the negative button or if the user has canceled the dialog (using the "Back" key).
+
 h4. Input
 
+Class: ??AskUserInputAction??.
+
+Constructors:
+* ??AskUserInputAction(String title, String message)??
+** ??title??: Title of the message box.
+** ??message??: Message of the message box. Can be ??null??.
+* ??AskUserInputAction(String title, String message, String inputHint)??
+** ??inputHint??: Hint to show in the EditText view of the dialog. Can be ??null??.
+* ??AskUserInputAction(String title, String message, String inputHint, String defaultInput)??
+** ??defaultInput??: Default text in the EditText view of the dialog. Can be ??null??.
+* ??AskUserInputAction(String title, String message, String inputHint, String defaultInput, int inputType)??
+** ??inputType??: "Input type":http://developer.android.com/reference/android/text/InputType.html of the EditTextView of the dialog. This allow to custumize the input type, like set a password field, an url field, etc.
+
+Method called when user answer:
+* ??List&lt;Action&gt; onUserInput(String currentTabId, String questionId, boolean cancelled, String userInput)??
+** ??currentTabId??: The id of the current tab.
+** ??questionId??: The id of the question.
+** ??cancelled??: ??true?? if the user click on the "Cancel" button, or dismissed the dialog with the "Back" key. ??false?? if the user clicked on the "Ok" Button.
+** ??userInput??: The text the user typed. Always ??null?? if ??cancelled?? is ??true??.
+
 h4. Choice
+
+Class: ??AskUserChoiceAction??.
+
+Constructors:
+* ??AskUserChoiceAction(String title, List&lt;String&gt; choices)??
+** ??title??: Title of the message box.
+** ??choices??: The choices for the user, as a ??List?? of ??String??. Choices will be presented to the user in the order they are in this list.
+
+Method called when user answer:
+* ??List&lt;Action&gt; onUserChoice(String currentTabId, String questionId, boolean cancelled, int userChoice)??
+** ??currentTabId??: The id of the current tab.
+** ??questionId??: The id of the question.
+** ??cancelled??: ??true?? if the user click on the "Cancel" button, or dismissed the dialog with the "Back" key. ??false?? if the user clicked on the "Ok" Button.
+** ??userChoice??: The index of the item selected by the user. Always ??-1?? if ??cancelled?? is ??true??.

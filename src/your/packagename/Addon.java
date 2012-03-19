@@ -122,7 +122,7 @@ public class Addon extends BaseAddon {
 	}
 
 	@Override
-	public List<Action> onUserConfirm(String currentTabId, String questionId, boolean positiveAnswer)	throws RemoteException {
+	public List<Action> onUserConfirm(String currentTabId, String questionId, boolean positiveAnswer) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
